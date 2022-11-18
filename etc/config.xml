@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Thomas Athanasiou at Hippiemonkeys
+    Copyright (c) 2022 Hippiemonkeys (https://hippiemonkeys.com)
+    Hippiemonkeys_ModificationAmastyAdminActionsLog
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <hippiemonkeys_modification>
+            <amastyadminactionslog>
+                <active>0</active>
+                <database_active_session_active>0</database_active_session_active>
+                <database_active_session_connection_name>hippiemonkeys_modificationamastyadminactionslog</database_active_session_connection_name>
+                <database_log_active>0</database_log_active>
+                <database_log_connection_name>hippiemonkeys_modificationamastyadminactionslog</database_log_connection_name>
+                <database_login_attempt_active>0</database_login_attempt_active>
+                <database_login_attempt_connection_name>hippiemonkeys_modificationamastyadminactionslog</database_login_attempt_connection_name>
+                <database_visit_history_active>0</database_visit_history_active>
+                <database_visit_history_connection_name>hippiemonkeys_modificationamastyadminactionslog</database_visit_history_connection_name>
+            </amastyadminactionslog>
+        </hippiemonkeys_modification>
+    </default>
+</config>
