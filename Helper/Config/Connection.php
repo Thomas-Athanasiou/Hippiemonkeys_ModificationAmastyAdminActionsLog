@@ -5,7 +5,7 @@
      * @author Thomas Athanasiou {thomas@hippiemonkeys.com}
      * @link https://hippiemonkeys.com
      * @link https://github.com/Thomas-Athanasiou
-     * @copyright Copyright (c) 2022 Hippiemonkeys Web Inteligence EE All Rights Reserved.
+     * @copyright Copyright (c) 2023 Hippiemonkeys Web Inteligence EE All Rights Reserved.
      * @license http://www.gnu.org/licenses/ GNU General Public License, version 3
      * @package Hippiemonkeys_ModificationAmastyAdminActionsLog
      */
@@ -14,12 +14,13 @@
 
     namespace Hippiemonkeys\ModificationAmastyAdminActionsLog\Helper\Config;
 
-    use Hippiemonkeys\Modification\Helper\Config\Section\Modification,
+    use Hippiemonkeys\Core\Api\Helper\ConfigInterface,
+        Hippiemonkeys\Core\Helper\Config\Section\Group\Sub,
         Hippiemonkeys\ModificationAmastyAdminActionsLog\Api\Helper\Config\ConnectionInterface,
         Magento\Framework\App\Helper\Context;
 
     class Connection
-    extends Modification
+    extends Sub
     implements ConnectionInterface
     {
         /**
@@ -30,23 +31,23 @@
          * @param \Magento\Framework\App\Helper\Context $context
          * @param string $section
          * @param string $group
-         * @param string $modificationFlagField
+         * @param \Hippiemonkeys\Core\Api\Helper\ConfigInterface $parentConfig
          * @param string $connectionNameField
          */
         public function __construct(
             Context $context,
             string $section,
             string $group,
-            string $modificationFlagField,
+            ConfigInterface $parentConfig,
             string $connectionNameField
         )
         {
-            parent::__construct($context, $section, $group, $modificationFlagField);
+            parent::__construct($context, $section, $group, $parentConfig);
             $this->_connectionNameField = $connectionNameField;
         }
 
         /**
-         * @inheritdoc
+         * {@inheritdoc}
          */
         public function getConnectionName(): string
         {

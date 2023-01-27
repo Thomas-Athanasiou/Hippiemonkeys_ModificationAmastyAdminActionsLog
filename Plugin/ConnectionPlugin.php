@@ -5,7 +5,7 @@
      * @author Thomas Athanasiou {thomas@hippiemonkeys.com}
      * @link https://hippiemonkeys.com
      * @link https://github.com/Thomas-Athanasiou
-     * @copyright Copyright (c) 2022 Hippiemonkeys Web Inteligence EE All Rights Reserved.
+     * @copyright Copyright (c) 2023 Hippiemonkeys Web Inteligence EE All Rights Reserved.
      * @license http://www.gnu.org/licenses/ GNU General Public License, version 3
      * @package Hippiemonkeys_ModificationAmastyAdminActionsLog
      */
@@ -14,7 +14,8 @@
 
     namespace Hippiemonkeys\ModificationAmastyAdminActionsLog\Plugin;
 
-    use Magento\Framework\App\ResourceConnection,
+    use Magento\Framework\DB\Adapter\AdapterInterface,
+        Magento\Framework\App\ResourceConnection,
         Magento\Framework\Model\ResourceModel\Db\AbstractDb,
         Hippiemonkeys\ModificationAmastyAdminActionsLog\Api\Helper\Config\ConnectionInterface as ConfigInterface;
 
@@ -42,12 +43,12 @@
          *
          * @access public
          *
-         * @param \Magento\Framework\Model\ResourceModel\Db\AbstractDb $subject
+         * @param mixed $subject
          * @param \Magento\Framework\DB\Adapter\AdapterInterface|false $connection
          *
          * @return \Magento\Framework\DB\Adapter\AdapterInterface|false
          */
-        public function afterGetConnection($subject, $connection)
+        public function afterGetConnection($subject, AdapterInterface|false $connection): AdapterInterface|false
         {
             if($this->getIsActive())
             {

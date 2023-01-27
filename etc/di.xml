@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!--
     Thomas Athanasiou at Hippiemonkeys
-    Copyright (c) 2022 Hippiemonkeys Web Inteligence EE (https://hippiemonkeys.com)
+    Copyright (c) 2023 Hippiemonkeys Web Inteligence EE (https://hippiemonkeys.com)
     Hippiemonkeys_ModificationAmastyAdminActionsLog
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
@@ -10,7 +10,8 @@
         <arguments>
             <argument name="section" xsi:type="string">hippiemonkeys_modification</argument>
             <argument name="group" xsi:type="string">amastyadminactionslog</argument>
-            <argument name="modificationFlagField" xsi:type="string">database_active_session_active</argument>
+            <argument name="activeField" xsi:type="string">database_active_session_active</argument>
+            <argument name="parentConfig" xsi:type="object">Hippiemonkeys\Modification\Helper\Config\Section\Group\General</argument>
             <argument name="connectionNameField" xsi:type="string">database_active_session_connection_name</argument>
         </arguments>
     </virtualType>
@@ -22,6 +23,7 @@
     <type name="Amasty\AdminActionsLog\Model\ActiveSession\ResourceModel\ActiveSession">
         <plugin name="hippiemonkeys_modificationamastyadminactionslog_activesessionconnectionplugin" type="Hippiemonkeys\ModificationAmastyAdminActionsLog\Plugin\ActiveSessionConnectionPlugin" sortOrder="0" disabled="false" />
     </type>
+
     <!-- Log connection -->
     <preference for="Amasty\AdminActionsLog\Model\LogEntry\ResourceModel\Grid\Collection" type="Hippiemonkeys\ModificationAmastyAdminActionsLog\Model\LogEntry\ResourceModel\Grid\Collection" />
     <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
@@ -35,7 +37,8 @@
         <arguments>
             <argument name="section" xsi:type="string">hippiemonkeys_modification</argument>
             <argument name="group" xsi:type="string">amastyadminactionslog</argument>
-            <argument name="modificationFlagField" xsi:type="string">database_log_active</argument>
+            <argument name="activeField" xsi:type="string">database_log_active</argument>
+            <argument name="parentConfig" xsi:type="object">Hippiemonkeys\Modification\Helper\Config\Section\Group\General</argument>
             <argument name="connectionNameField" xsi:type="string">database_log_connection_name</argument>
         </arguments>
     </virtualType>
@@ -61,12 +64,14 @@
     <type name="Amasty\AdminActionsLog\Model\LogEntry\ResourceModel\LogEntry">
         <plugin name="hippiemonkeys_modificationamastyadminactionslog_logconnectionplugin" type="Hippiemonkeys\ModificationAmastyAdminActionsLog\Plugin\LogConnectionPlugin" sortOrder="0" disabled="false" />
     </type>
+
     <!-- Login Atempt connection -->
     <virtualType name="Hippiemonkeys\ModificationAmastyAdminActionsLog\Helper\Config\LoginAttemptConnection" type="Hippiemonkeys\ModificationAmastyAdminActionsLog\Helper\Config\Connection">
         <arguments>
             <argument name="section" xsi:type="string">hippiemonkeys_modification</argument>
             <argument name="group" xsi:type="string">amastyadminactionslog</argument>
-            <argument name="modificationFlagField" xsi:type="string">database_login_attempt_active</argument>
+            <argument name="activeField" xsi:type="string">database_login_attempt_active</argument>
+            <argument name="parentConfig" xsi:type="object">Hippiemonkeys\Modification\Helper\Config\Section\Group\General</argument>
             <argument name="connectionNameField" xsi:type="string">database_login_attempt_connection_name</argument>
         </arguments>
     </virtualType>
@@ -78,12 +83,14 @@
     <type name="Amasty\AdminActionsLog\Model\LoginAttempt\ResourceModel\LoginAttempt">
         <plugin name="hippiemonkeys_modificationamastyadminactionslog_loginAttemptplugin" type="Hippiemonkeys\ModificationAmastyAdminActionsLog\Plugin\LogConnectionPlugin" sortOrder="0" disabled="false" />
     </type>
+
     <!-- Visit History connection -->
     <virtualType name="Hippiemonkeys\ModificationAmastyAdminActionsLog\Helper\Config\VisitHistoryConnection" type="Hippiemonkeys\ModificationAmastyAdminActionsLog\Helper\Config\Connection">
         <arguments>
             <argument name="section" xsi:type="string">hippiemonkeys_modification</argument>
             <argument name="group" xsi:type="string">amastyadminactionslog</argument>
-            <argument name="modificationFlagField" xsi:type="string">database_visit_history_active</argument>
+            <argument name="activeField" xsi:type="string">database_visit_history_active</argument>
+            <argument name="parentConfig" xsi:type="object">Hippiemonkeys\Modification\Helper\Config\Section\Group\General</argument>
             <argument name="connectionNameField" xsi:type="string">database_visit_history_connection_name</argument>
         </arguments>
     </virtualType>

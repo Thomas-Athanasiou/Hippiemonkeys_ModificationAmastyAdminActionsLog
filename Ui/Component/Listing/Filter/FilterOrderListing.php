@@ -5,7 +5,7 @@
      * @author Thomas Athanasiou {thomas@hippiemonkeys.com}
      * @link https://hippiemonkeys.com
      * @link https://github.com/Thomas-Athanasiou
-     * @copyright Copyright (c) 2022 Hippiemonkeys Web Inteligence EE All Rights Reserved.
+     * @copyright Copyright (c) 2023 Hippiemonkeys Web Inteligence EE All Rights Reserved.
      * @license http://www.gnu.org/licenses/ GNU General Public License, version 3
      * @package Hippiemonkeys_ModificationAmastyAdminActionsLog
      */
@@ -16,22 +16,15 @@
 
     use Amasty\AdminActionsLog\Logging\Entity\SaveHandler\Sales\Creditmemo,
         Amasty\AdminActionsLog\Logging\Entity\SaveHandler\Sales\Invoice,
-        Amasty\AdminActionsLog\Logging\Entity\SaveHandler\Sales\Order,
         Amasty\AdminActionsLog\Logging\Entity\SaveHandler\Sales\OrderAddress,
         Amasty\AdminActionsLog\Logging\Entity\SaveHandler\Sales\Shipment,
-        Amasty\AdminActionsLog\Model\LogEntry\LogEntry,
         Amasty\AdminActionsLog\Ui\Component\Listing\Filter\FilterOrderListing as ParentFilterOrderListing,
         Magento\Framework\App\RequestInterface,
         Magento\Framework\Data\Collection\AbstractDb,
-        Magento\Framework\Data\CollectionModifierInterface,
-        Magento\Sales\Api\Data\CreditmemoInterface,
-        Magento\Sales\Api\Data\InvoiceInterface,
-        Magento\Sales\Api\Data\OrderAddressInterface,
-        Magento\Sales\Api\Data\OrderInterface,
-        Magento\Sales\Api\Data\ShipmentInterface,
         Magento\Sales\Api\OrderRepositoryInterface,
-        Hippiemonkeys\ModificationAmastyAdminActionsLog\Api\Helper\Config\ConnectionInterface as ConfigInterface,
-        Magento\Sales\Model\ResourceModel\Collection\AbstractCollection as MagentoSalesAbstractCollection;
+        Magento\Sales\Model\Order,
+        Magento\Sales\Model\ResourceModel\Collection\AbstractCollection as MagentoSalesAbstractCollection,
+        Hippiemonkeys\ModificationAmastyAdminActionsLog\Api\Helper\Config\ConnectionInterface as ConfigInterface;
 
     class FilterOrderListing
     extends ParentFilterOrderListing
@@ -58,7 +51,7 @@
         }
 
         /**
-         * @inheritdoc
+         * {@inheritdoc}
          */
         public function apply(AbstractDb $collection)
         {
@@ -70,58 +63,60 @@
                     try
                     {
                         $order = $this->getOrderRepository()->get($orderId);
-
-                        $select = $collection->getSelect();
-
-                        $creditmemosCollection = $order->getCreditmemosCollection();
-                        if($creditmemosCollection)
+                        if($order instanceof Order)
                         {
-                            $creditMemoIds = $this->collectionToIdArray($creditmemosCollection);
-                            if(\count($creditMemoIds) > 0)
+                            $select = $collection->getSelect();
+
+                            $creditmemosCollection = $order->getCreditmemosCollection();
+                            if($creditmemosCollection)
                             {
-                                $select->where(
-                                    \sprintf('category = ? AND element_id IN (%s)', implode(',', $creditMemoIds)),
-                                    Creditmemo::CATEGORY,
-                                );
+                                $creditMemoIds = $this->collectionToIdArray($creditmemosCollection);
+                                if(\count($creditMemoIds) > 0)
+                                {
+                                    $select->where(
+                                        \sprintf('category = ? AND element_id IN (%s)', implode(',', $creditMemoIds)),
+                                        Creditmemo::CATEGORY,
+                                    );
+                                }
                             }
-                        }
 
-                        $invoiceCollection = $order->getInvoiceCollection();
-                        if($invoiceCollection)
-                        {
-                            $invoiceIds = $this->collectionToIdArray($invoiceCollection);
-                            if(\count($invoiceIds) > 0)
+                            $invoiceCollection = $order->getInvoiceCollection();
+                            if($invoiceCollection)
                             {
-                                $select->orwhere(
-                                    \sprintf('category = ? AND element_id IN (%s)', implode(',', $invoiceIds)),
-                                    Invoice::CATEGORY,
-                                );
+                                $invoiceIds = $this->collectionToIdArray($invoiceCollection);
+                                if(\count($invoiceIds) > 0)
+                                {
+                                    $select->orwhere(
+                                        \sprintf('category = ? AND element_id IN (%s)', implode(',', $invoiceIds)),
+                                        Invoice::CATEGORY,
+                                    );
+                                }
                             }
-                        }
 
-                        $shipmentsCollection = $order->getShipmentsCollection();
-                        if($shipmentsCollection)
-                        {
-                            $shipmentIds = $this->collectionToIdArray($shipmentsCollection);
-                            if(\count($shipmentIds) > 0)
+                            $shipmentsCollection = $order->getShipmentsCollection();
+                            if($shipmentsCollection)
                             {
-                                $select->orwhere(
-                                    \sprintf('category = ? AND element_id IN (%s)',implode(',', $shipmentIds)),
-                                    Shipment::CATEGORY
-                                );
+                                $shipmentIds = $this->collectionToIdArray($shipmentsCollection);
+                                if(\count($shipmentIds) > 0)
+                                {
+                                    $select->orwhere(
+                                        \sprintf('category = ? AND element_id IN (%s)',implode(',', $shipmentIds)),
+                                        Shipment::CATEGORY
+                                    );
+                                }
                             }
-                        }
 
-                        $orderAdressesCollection = $order->getAddressesCollection();
-                        if($orderAdressesCollection)
-                        {
-                            $orderAdressIds = $this->collectionToIdArray($orderAdressesCollection);
-                            if(\count($orderAdressIds) > 0)
+                            $orderAdressesCollection = $order->getAddressesCollection();
+                            if($orderAdressesCollection)
                             {
-                                $select->orwhere(
-                                    \sprintf('category = ? AND element_id IN (%s)',implode(',', $orderAdressIds)),
-                                    OrderAddress::CATEGORY
-                                );
+                                $orderAdressIds = $this->collectionToIdArray($orderAdressesCollection);
+                                if(\count($orderAdressIds) > 0)
+                                {
+                                    $select->orwhere(
+                                        \sprintf('category = ? AND element_id IN (%s)',implode(',', $orderAdressIds)),
+                                        OrderAddress::CATEGORY
+                                    );
+                                }
                             }
                         }
                     }
